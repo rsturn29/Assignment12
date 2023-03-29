@@ -37,7 +37,7 @@ VALUES(1,1,1),(1,3,1),(2,2,1),(2,3,2),(3,3,1),(3,4,1);
 INSERT INTO customer_orders(customer_id, order_id)
 VALUES (1,1),(2,2),(1,3);
 
-SELECT  customer.first_name, SUM(pizzas.price * pizza_orders.quantity) AS total_amout
+SELECT customer.first_name, SUM(pizzas.price * pizza_orders.quantity) AS total_amout
 FROM pizzas
 JOIN pizza_orders ON pizzas.pizza_id = pizza_orders.pizza_id
 JOIN customer_orders ON pizza_orders.order_id = customer_orders.order_id
@@ -45,12 +45,12 @@ JOIN customer ON customer_orders.customer_id = customer.customer_id
 JOIN orders ON customer_orders.order_id = orders.order_id
 GROUP BY  customer.first_name;
 
-SELECT  customer.first_name, orders.order_date,  SUM(pizzas.price * pizza_orders.quantity) AS total_amount
+SELECT  DATE(orders.order_date), customer.first_name, SUM(pizzas.price * pizza_orders.quantity) AS total_amount
 FROM pizzas
 JOIN pizza_orders ON pizzas.pizza_id = pizza_orders.pizza_id
 JOIN customer_orders ON pizza_orders.order_id = customer_orders.order_id
 JOIN customer ON customer_orders.customer_id = customer.customer_id
 JOIN orders ON customer_orders.order_id = orders.order_id
-GROUP BY  customer.first_name, orders.order_date;
+GROUP BY (orders.order_date), customer.first_name;
 
  
